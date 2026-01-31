@@ -40,14 +40,14 @@ jobs:
           echo "Detected Chromium version: ${VERSION}"
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
           echo "LATEST_TAG=${LATEST_TAG}" >> "$GITHUB_OUTPUT"
-          echo "FULL_TAG=${LATEST_TAG}-${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "FULL_TAG=${LATEST_TAG}-chromium${VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Check if tag already exists
         id: tagcheck
         run: |
           TAG="${{ steps.chromium.outputs.FULL_TAG }}"
           USER="${{ secrets.DOCKERHUB_USERNAME }}"
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \\
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             "https://hub.docker.com/v2/repositories/${USER}/serverless-nodriver/tags/${TAG}/")
           echo "STATUS=${STATUS}" >> "$GITHUB_OUTPUT"
           if [ "$STATUS" = "200" ]; then
