@@ -1,6 +1,8 @@
 # Nodriver Container
 
-Containerized HTTP service that runs a headless browser and proxies the final response body after redirects.
+This is a dumb wrapper around [**ultrafunkamsterdam/nodriver**](https://github.com/ultrafunkamsterdam/nodriver) that does almost nothing besides accepting settings and returning the result.
+
+It's handy when you just want a simple HTTP interface to drive a headless browser.
 
 Originally designed for serverless usage, but works just as well as a regular long-running container.
 
