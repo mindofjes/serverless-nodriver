@@ -1,0 +1,67 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "*"
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build image locally for version detection
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: serverless-nodriver:version-check
+
+      - name: Detect Chromium version
+        id: chromium
+        run: |
+          VERSION_RAW=$(docker run --rm serverless-nodriver:version-check chromium --version)
+          VERSION=$(echo "$VERSION_RAW" | awk '{print $2}')
+          echo "CHROMIUM_VERSION=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Detected Chromium version: ${VERSION}"
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
+          echo "LATEST_TAG=${LATEST_TAG}" >> "$GITHUB_OUTPUT"
+          echo "FULL_TAG=${LATEST_TAG}-${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag already exists
+        id: tagcheck
+        run: |
+          TAG="${{ steps.chromium.outputs.FULL_TAG }}"
+          USER="${{ secrets.DOCKERHUB_USERNAME }}"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \\
+            "https://hub.docker.com/v2/repositories/${USER}/serverless-nodriver/tags/${TAG}/")
+          echo "STATUS=${STATUS}" >> "$GITHUB_OUTPUT"
+          if [ "$STATUS" = "200" ]; then
+            echo "EXISTS=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "EXISTS=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and push
+        if: steps.tagcheck.outputs.EXISTS != 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/serverless-nodriver:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/serverless-nodriver:${{ steps.chromium.outputs.FULL_TAG }}
